@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Тест по специальной педагогике | Дефектология</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e9f0f5 0%, #d9e2ec 100%);
+            font-family: 'Segoe UI', 'Roboto', 'Inter', system-ui, -apple-system, sans-serif;
+            padding: 2rem 1.5rem;
+            color: #1a2c3e;
+        }
+
+        /* контейнер */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* карточки и анимации */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255,255,255,0.5);
+            padding: 2rem 2rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 28px 38px -16px rgba(0, 0, 0, 0.25);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeSlideDown 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .header h1 {
+            font-size: 2.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e466e, #2b6a8f);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #2c5a7a;
+            color: white;
+            border-radius: 100px;
+            padding: 0.3rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            backdrop-filter: blur(4px);
+        }
+
+        /* прогресс-бар */
+        .progress-area {
+            background: #eef3f9;
+            border-radius: 60px;
+            padding: 0.2rem;
+            margin: 1.5rem 0 1rem;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #2b7a62, #4aa3b0);
+            width: 0%;
+            height: 10px;
+            border-radius: 60px;
+            transition: width 0.3s ease;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            color: #2c5a7a;
+        }
+
+        /* вопросы */
+        .question-card {
+            animation: fadeIn 0.4s ease;
+            margin-bottom: 1rem;
+        }
+
+        .question-text {
+            font-size: 1.45rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            line-height: 1.35;
+            border-left: 5px solid #2b7a62;
+            padding-left: 1rem;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .option {
+            background: #f8fafd;
+            border-radius: 1.2rem;
+            border: 1px solid #cbdde9;
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .option:hover {
+            background: #eef3fc;
+            transform: scale(1.01);
+            border-color: #7faece;
+        }
+
+        input[type="radio"], input[type="checkbox"] {
+            width: 1.2rem;
+            height: 1.2rem;
+            cursor: pointer;
+            accent-color: #2b7a62;
+        }
+
+        .option-label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        /* кнопки */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            gap: 1rem;
+        }
+
+        button {
+            background: #eef2f7;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        button.primary {
+            background: #2b7a62;
+            color: white;
+            box-shadow: 0 4px 8px rgba(43,122,98,0.2);
+        }
+
+        button.primary:hover {
+            background: #236b56;
+            transform: translateY(-2px);
+        }
+
+        button.secondary {
+            background: #cbdde9;
+        }
+
+        button.secondary:hover {
+            background: #b6cddd;
+        }
+
+        .result-panel {
+            margin-top: 2rem;
+            text-align: center;
+            animation: fadeInUp 0.5s;
+        }
+
+        .score-circle {
+            width: 130px;
+            height: 130px;
+            background: conic-gradient(#2b7a62 0deg, #e0ecef 0deg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem auto;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1e3e52;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .answers-review {
+            text-align: left;
+            max-height: 380px;
+            overflow-y: auto;
+            margin-top: 1.5rem;
+            background: #fafeff;
+            border-radius: 1.5rem;
+            padding: 0.8rem;
+        }
+
+        .review-item {
+            border-bottom: 1px solid #cde3ef;
+            padding: 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .correct-badge {
+            color: #2b7a62;
+            font-weight: bold;
+        }
+        .wrong-badge {
+            color: #c25d5d;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            opacity: 0.7;
+            font-size: 0.75rem;
+        }
+
+        @keyframes fadeSlideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(8px);}
+            to { opacity: 1; transform: translateX(0);}
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        @media (max-width: 700px) {
+            body { padding: 1rem; }
+            .glass-card { padding: 1.3rem; }
+            .question-text { font-size: 1.2rem; }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="glass-card">
+        <div class="header">
+            <h1>📘 Специальная педагогика</h1>
+            <div class="badge">Тест-тренажёр по программе экзамена | Дефектология</div>
+        </div>
+
+        <!-- прогресс -->
+        <div class="progress-area">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="stats">
+            <span>📋 Вопрос <span id="currentIdxSpan">1</span> / <span id="totalSpan">30</span></span>
+            <span>✅ Отвечено: <span id="answeredCount">0</span></span>
+        </div>
+
+        <!-- панель вопроса -->
+        <div id="quizContainer"></div>
+
+        <!-- навигация -->
+        <div class="nav-buttons">
+            <button id="prevBtn" class="secondary">◀ Назад</button>
+            <button id="nextBtn" class="primary">Далее ▶</button>
+            <button id="submitBtn" class="primary" style="background:#a05e5e; display: none;">✅ Завершить тест</button>
+        </div>
+
+        <!-- результаты -->
+        <div id="resultArea" class="result-panel hidden"></div>
+    </div>
+    <footer>Источники: ФГОС НОО ОВЗ №1598, ФГОС УО №1599, ФАОП, труды ИКП РАО (Малофеев, Шматко, Кукушкина)</footer>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // 30 вопросов (все типы, перемешаны, строго по материалам)
+    // --------------------------------------------------------------
+    const QUESTIONS = [
+        { text: "Верно ли утверждение, что ФГОС НОО обучающихся с ОВЗ (№1598) предусматривает возможность получения цензового образования детьми с задержкой психического развития (вариант 7.1)?", type: "single", options: ["А) Верно", "Б) Неверно"], correct: [0] },
+        { text: "Сколько основных направлений коррекционной работы в сфере развития жизненной компетенции для всех категорий обучающихся с ОВЗ выделено в Концепции развития образования обучающихся с инвалидностью и ОВЗ до 2030 г.?", type: "single", options: ["А) 3", "Б) 5", "В) 7", "Г) 9"], correct: [1] },
+        { text: "Что является лишним в перечне особых образовательных потребностей, общих для всех детей с ОВЗ (по О.И. Кукушкиной, Е.Л. Гончаровой, О.С. Никольской)?", type: "single", options: ["А) Необходимость в максимально раннем начале образования", "Б) Использование специальных методов и средств обучения", "В) Обучение в отдельных специализированных учреждениях изолированно от здоровых сверстников", "Г) Пролонгированность процесса обучения и выход за рамки школьного возраста"], correct: [2] },
+        { text: "Какие из перечисленных нарушений относятся к первичным (биологическим) дефектам? (Выберите 3 варианта)", type: "multi", options: ["А) Нарушение слухового анализатора", "Б) Задержка психического развития вследствие социальной депривации", "В) Поражение коры головного мозга", "Г) Искаженное развитие личности из-за неправильного воспитания", "Д) Нарушение зрительного анализатора", "Е) Немота у глухого от рождения ребенка"], correct: [0,2,4] },
+        { text: "Установите правильную последовательность этапов эволюции отношения государства и общества к лицам с отклонениями в развитии по Н.Н. Малофееву (укажите порядок цифр через запятую, например: 1,2,3,4,5). Варианты: 1 - От равных прав к равным возможностям, интеграция; 2 - От агрессии и нетерпимости к осознанию необходимости призрения; 3 - От осознания возможности обучения к целесообразности обучения глухих, слепых; 4 - От осознания необходимости призрения к осознанию возможности обучения; 5 - От права на образование трех категорий к пониманию необходимости обучения всех.", type: "order", options: ["2", "4", "3", "5", "1"], correct: [0,1,2,3,4] },
+        { text: "Вставьте пропущенное слово: Согласно периодизации Н.Н. Малофеева, эволюция отношения государства к лицам с отклонениями в развитии завершается переходом «от равных прав к __________________».", type: "text", options: [], correct: ["равным возможностям", "равным возможностям"] },
+        { text: "Установите соответствие между вариантом АООП НОО и уровнем образования: 1) Вариант 1 — А) Индивидуальный уровень; 2) Вариант 2 — Б) Цензовый в стандартные сроки; 3) Вариант 3 — В) Цензовый в пролонгированные сроки; 4) Вариант 4 — Г) Нецензовый уровень (введите соответствие цифра-буква, например 1Б,2В,3Г,4А)", type: "match", options: ["1Б", "2В", "3Г", "4А"], correct: ["1Б","2В","3Г","4А"] },
+        { text: "Какой документ является основным для определения специальных условий получения образования ребенком с ОВЗ?", type: "single", options: ["А) Индивидуальная программа реабилитации (ИПРА)", "Б) Медицинская карта ребенка", "В) Заключение психолого-медико-педагогической комиссии (ПМПК)", "Г) Заявление родителей"], correct: [2] },
+        { text: "Верно ли утверждение, что эпизодическая интеграция предполагает полное включение ребенка с ОВЗ в обычный класс на весь учебный день?", type: "single", options: ["А) Верно", "Б) Неверно"], correct: [1] },
+        { text: "Какие варианты АООП НОО предполагают достижение цензового уровня образования? (выберите 2 варианта)", type: "multi", options: ["А) Вариант 1", "Б) Вариант 2", "В) Вариант 3", "Г) Вариант 4"], correct: [0,1] },
+        { text: "Вставьте пропущенное слово: Согласно ФГОС №1598, структура АООП НОО включает три раздела: целевой, содержательный и __________________.", type: "text", options: [], correct: ["организационный", "организационный раздел"] },
+        { text: "Что является лишним в перечне условий эффективной интеграции (по О.И. Кукушкиной)?", type: "single", options: ["А) Желание родителей обучать ребенка вместе со здоровыми детьми", "Б) Обязательное наличие у ребенка тяжелых множественных нарушений развития (ТМНР)", "В) Наличие возможности оказывать квалифицированную коррекционную помощь", "Г) Психологическая готовность ребенка"], correct: [1] },
+        { text: "Установите последовательность уровней образования в РФ (от низшего к высшему): 1) Среднее общее; 2) Основное общее; 3) Высшее (бакалавриат); 4) Дошкольное; 5) Начальное общее (введите порядок цифр через запятую)", type: "order", options: ["4", "5", "2", "1", "3"], correct: [0,1,2,3,4] },
+        { text: "Соотнесите вид школы и категорию детей: 1) I вид — А) ТНР; 2) III вид — Б) Глухие; 3) V вид — В) ЗПР; 4) VII вид — Г) Слепые; 5) VIII вид — Д) УО (введите соответствия через запятую: 1Б,2Г,3А,4В,5Д)", type: "match", options: ["1Б","2Г","3А","4В","5Д"], correct: ["1Б","2Г","3А","4В","5Д"] },
+        { text: "Для какой категории детей с ОВЗ ФГОС НОО №1598 предусматривает 4 варианта АООП?", type: "single", options: ["А) Нарушения слуха", "Б) НОДА", "В) ЗПР", "Г) ТНР"], correct: [0] },
+        { text: "Верно ли, что согласно ФГОС №1599 оценка личностных результатов при УО основывается только на предметных достижениях?", type: "single", options: ["А) Верно", "Б) Неверно"], correct: [1] },
+        { text: "Какие модели интегрированного обучения относятся к дозированным формам? (выберите 4 варианта)", type: "multi", options: ["А) Постоянная полная", "Б) Постоянная неполная", "В) Постоянная частичная", "Г) Временная частичная", "Д) Эпизодическая"], correct: [1,2,3,4] },
+        { text: "Вставьте слово: категория «ребенок-инвалид» устанавливается учреждениями __________________ экспертизы (МСЭ).", type: "text", options: [], correct: ["медико-социальной", "медико-социальной"] },
+        { text: "Установите последовательность разделов АООП: 1) Организационный; 2) Содержательный; 3) Целевой (введите порядок цифр)", type: "order", options: ["3", "2", "1"], correct: [0,1,2] },
+        { text: "Соотнесите направление жизненной компетенции и пример: 1) адекватные представления о возможностях — А) начать разговор; 2) социально-бытовые умения — Б) объяснить про прививку; 3) навыки коммуникации — В) ориентировка в школе; 4) осмысление картины мира — Г) пользоваться очками; 5) социальное окружение — Д) не быть назойливым (введите 1Г,2В,3А,4Б,5Д)", type: "match", options: ["1Г","2В","3А","4Б","5Д"], correct: ["1Г","2В","3А","4Б","5Д"] },
+        { text: "Что является лишним в задачах ФГОС НОО ОВЗ?", type: "single", options: ["А) Формирование общей культуры", "Б) Охрана здоровья", "В) Полная изоляция от социума для безопасности", "Г) Создание спецусловий"], correct: [2] },
+        { text: "Какая модель интеграции предполагает постоянное нахождение ребенка в обычной среде весь день?", type: "single", options: ["А) Постоянная неполная", "Б) Постоянная частичная", "В) Постоянная полная", "Г) Эпизодическая"], correct: [2] },
+        { text: "Какие документы входят в структуру ФАОП? (выберите 3)", type: "multi", options: ["А) Федеральный учебный план", "Б) ИПРА", "В) Федеральный календарный учебный график", "Г) Медицинская карта", "Д) Федеральная рабочая программа воспитания"], correct: [0,2,4] },
+        { text: "Установите последовательность этапов развития системы спецобразования по Малофееву (ранний→поздний): 1) Перестройка на основе нормализации; 2) Дифференциация; 3) Становление параллельной системы для трех категорий (введите порядок)", type: "order", options: ["3", "2", "1"], correct: [0,1,2] },
+        { text: "Вставьте слово: компонент __________________ компетенции обеспечивает развитие отношений с окружением в настоящем.", type: "text", options: [], correct: ["жизненной", "жизненная"] },
+        { text: "Верно ли, что интегрированное обучение требует МЕНЬШЕ дефектологов, чем дифференцированное?", type: "single", options: ["А) Верно", "Б) Неверно"], correct: [1] },
+        { text: "Какие коррекционные курсы являются общими для большинства категорий с ОВЗ? (выберите 3)", type: "multi", options: ["А) Ритмика", "Б) Формирование речевого слуха", "В) Логопедические занятия", "Г) Развитие психомоторики и сенсорных процессов"], correct: [0,2,3] },
+        { text: "Установите последовательность моделей интеграции по уменьшению времени (от макс. к мин.): 1) Временная частичная; 2) Постоянная полная; 3) Эпизодическая; 4) Постоянная частичная; 5) Постоянная неполная (введите порядок)", type: "order", options: ["2", "5", "4", "1", "3"], correct: [0,1,2,3,4] },
+        { text: "Согласно ФГОС №1599 для обучающихся с умеренной, тяжелой УО и ТМНР разрабатывается:", type: "single", options: ["А) АООП", "Б) ИУП", "В) СИПР", "Г) Примерная программа"], correct: [2] },
+        { text: "Установите соответствие нозологии и количества вариантов АООП НОО: 1) Глухие — А) 2 вар.; 2) Слабослышащие — Б) 3 вар.; 3) Слепые — В) 4 вар.; 4) ЗПР — Г) 1 вар. (введите 1В,2А,3В,4А — но по данным источника глухие и слепые —4, слабослышащие 3, ЗПР 2 варианта. Уточним: из стр.62 : глухие 4, слабослышащие 3, слепые 4, ЗПР 2 варианта)", type: "match", options: ["1В","2Б","3В","4А"], correct: ["1В","2Б","3В","4А"] }
+    ];
+
+    // обработка ответов пользователя
+    let userAnswers = new Array(QUESTIONS.length).fill(null);
+    let currentIndex = 0;
+    let quizSubmitted = false;
+
+    const quizContainer = document.getElementById("quizContainer");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const submitBtn = document.getElementById("submitBtn");
+    const resultArea = document.getElementById("resultArea");
+    const progressFill = document.getElementById("progressFill");
+    const currentIdxSpan = document.getElementById("currentIdxSpan");
+    const answeredCountSpan = document.getElementById("answeredCount");
+    const totalSpan = document.getElementById("totalSpan");
+    totalSpan.innerText = QUESTIONS.length;
+
+    function updateStats() {
+        const answered = userAnswers.filter(a => a !== null && a !== "" && !(Array.isArray(a) && a.length===0)).length;
+        answeredCountSpan.innerText = answered;
+        const percent = ((currentIndex+1)/QUESTIONS.length)*100;
+        progressFill.style.width = `${percent}%`;
+        currentIdxSpan.innerText = currentIndex+1;
+        if(quizSubmitted) return;
+        if(answered === QUESTIONS.length) {
+            submitBtn.style.display = "inline-flex";
+        } else {
+            submitBtn.style.display = "none";
+        }
+    }
+
+    function normalizeAnswer(q, val) {
+        if(q.type === "single") return val;
+        if(q.type === "multi") return Array.isArray(val) ? val.slice().sort((a,b)=>a-b) : [];
+        if(q.type === "order") return val;
+        if(q.type === "text") return val.trim().toLowerCase().replace(/[.,!]/g, '');
+        if(q.type === "match") return val;
+        return val;
+    }
+
+    function isAnswerCorrect(q, answer) {
+        if(answer === null || answer === undefined) return false;
+        if(q.type === "single") return answer === q.correct[0];
+        if(q.type === "multi") {
+            if(!Array.isArray(answer)) return false;
+            const sortedAns = [...answer].sort((a,b)=>a-b);
+            const sortedCor = [...q.correct].sort((a,b)=>a-b);
+            return JSON.stringify(sortedAns) === JSON.stringify(sortedCor);
+        }
+        if(q.type === "order") {
+            if(typeof answer !== "string") return false;
+            return answer === q.correct.join(',');
+        }
+        if(q.type === "text") {
+            let userNorm = answer.toLowerCase().replace(/[^а-яё\s-]/ig, '').trim();
+            let possible = q.correct.map(c => c.toLowerCase().replace(/[^а-яё\s-]/ig, ''));
+            return possible.includes(userNorm);
+        }
+        if(q.type === "match") {
+            return answer === q.correct.join(',');
+        }
+        return false;
+    }
+
+    function renderCurrentQuestion() {
+        const q = QUESTIONS[currentIndex];
+        let userVal = userAnswers[currentIndex];
+        let html = `<div class="question-card"><div class="question-text">${currentIndex+1}. ${q.text}</div><div class="options">`;
+        if(q.type === "single" || q.type === "multi") {
+            q.options.forEach((opt, idx) => {
+                let isChecked = false;
+                if(q.type === "single" && userVal === idx) isChecked = true;
+                if(q.type === "multi" && Array.isArray(userVal) && userVal.includes(idx)) isChecked = true;
+                let inputType = (q.type === "single") ? "radio" : "checkbox";
+                let nameAttr = (q.type === "single") ? "optRadio" : `optMulti${currentIndex}`;
+                html += `<div class="option" data-idx="${idx}">
+                            <input type="${inputType}" name="${nameAttr}" value="${idx}" ${isChecked ? "checked" : ""}>
+                            <span class="option-label">${opt}</span>
+                         </div>`;
+            });
+        } else if(q.type === "order" || q.type === "match") {
+            html += `<textarea id="orderMatchInput" rows="3" style="width:100%; padding:12px; border-radius:20px; border:1px solid #cbdde9; font-family:inherit;" placeholder="Введите ответ (например, 2,4,1,3,5 или 1Б,2В...)">${userVal || ''}</textarea>`;
+        } else if(q.type === "text") {
+            html += `<input type="text" id="textInput" style="width:100%; padding:12px; border-radius:40px; border:1px solid #cbdde9;" placeholder="Введите слово/словосочетание" value="${userVal || ''}">`;
+        }
+        html += `</div></div>`;
+        quizContainer.innerHTML = html;
+
+        // обработчики для одиночных/множественных
+        if(q.type === "single" || q.type === "multi") {
+            document.querySelectorAll('.option input').forEach(inp => {
+                inp.addEventListener('change', (e) => {
+                    let val;
+                    if(q.type === "single") {
+                        val = parseInt(inp.value);
+                        userAnswers[currentIndex] = val;
+                    } else {
+                        let checks = Array.from(document.querySelectorAll(`input[name="${inp.getAttribute('name')}"]:checked`)).map(cb => parseInt(cb.value));
+                        val = checks.sort((a,b)=>a-b);
+                        userAnswers[currentIndex] = val;
+                    }
+                    updateStats();
+                });
+            });
+        } else {
+            const inputField = document.querySelector('#orderMatchInput') || document.querySelector('#textInput');
+            if(inputField) {
+                inputField.addEventListener('input', (e) => {
+                    userAnswers[currentIndex] = e.target.value;
+                    updateStats();
+                });
+            }
+        }
+        updateStats();
+    }
+
+    function goNext() {
+        if(currentIndex < QUESTIONS.length-1) {
+            currentIndex++;
+            renderCurrentQuestion();
+        } else if(!quizSubmitted && userAnswers.filter(a => a!==null && a!=="").length === QUESTIONS.length) {
+            if(confirm("Все вопросы отмечены! Завершить тест?")) finishTest();
+        } else if(!quizSubmitted) {
+            alert("Ответьте на все вопросы перед завершением.");
+        }
+    }
+
+    function goPrev() {
+        if(currentIndex > 0) {
+            currentIndex--;
+            renderCurrentQuestion();
+        }
+    }
+
+    function finishTest() {
+        quizSubmitted = true;
+        let score = 0;
+        let details = [];
+        for(let i=0; i<QUESTIONS.length; i++) {
+            const q = QUESTIONS[i];
+            const ans = userAnswers[i];
+            const correct = isAnswerCorrect(q, ans);
+            if(correct) score++;
+            let userStr = (ans === null || ans === "") ? "Нет ответа" : (Array.isArray(ans) ? ans.map(x=>q.options[x]?.charAt(0)).join(',') : (typeof ans === "string" ? ans : (q.options[ans]?.charAt(0) || ans)));
+            if(q.type === "order" && typeof ans === "string") userStr = ans;
+            if(q.type === "match" && typeof ans === "string") userStr = ans;
+            details.push({num:i+1, text: q.text.substring(0,90), user: userStr, correct: correct, rightAnswer: (q.type==="single"?q.options[q.correct[0]]:q.correct.join(', ')) });
+        }
+        const percent = Math.round((score/QUESTIONS.length)*100);
+        let resultHtml = `<div style="text-align:center"><h3>🎓 Результат</h3>
+        <div class="score-circle" style="background: conic-gradient(#2b7a62 ${percent*3.6}deg, #e0ecef 0deg);">${score}/${QUESTIONS.length}</div>
+        <p style="font-size:1.2rem">${percent}% правильных ответов</p>
+        <button id="restartBtn" class="primary" style="margin-top:0.5rem">🔄 Пройти заново</button>
+        <div class="answers-review"><strong>📖 Детальный разбор:</strong>`;
+        details.forEach(d => {
+            resultHtml += `<div class="review-item"><span>${d.num}. ${d.text}</span><br>📌 Ваш ответ: ${d.user} — ${d.correct ? '<span class="correct-badge">✓ верно</span>' : '<span class="wrong-badge">✗ неверно</span>'}<br>✔ Правильно: ${d.rightAnswer}</div>`;
+        });
+        resultHtml += `</div></div>`;
+        resultArea.innerHTML = resultHtml;
+        resultArea.classList.remove("hidden");
+        quizContainer.classList.add("hidden");
+        prevBtn.style.display = "none";
+        nextBtn.style.display = "none";
+        submitBtn.style.display = "none";
+        document.getElementById("restartBtn").addEventListener("click", () => location.reload());
+    }
+
+    prevBtn.addEventListener("click", goPrev);
+    nextBtn.addEventListener("click", goNext);
+    submitBtn.addEventListener("click", finishTest);
+
+    renderCurrentQuestion();
+    updateStats();
+</script>
+</body>
+</html>
